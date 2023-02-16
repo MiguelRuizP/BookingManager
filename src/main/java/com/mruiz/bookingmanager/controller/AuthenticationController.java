@@ -34,9 +34,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/token")
-    public String token(Authentication authentication) {
+    public ResponseEntity<SimpleMessageDto> token(Authentication authentication) {
         String token = tokenService.generateToken(authentication);
-        return token;
+        return ResponseEntity.ok(new SimpleMessageDto(token));
     }
     
     @PostMapping("/register")
