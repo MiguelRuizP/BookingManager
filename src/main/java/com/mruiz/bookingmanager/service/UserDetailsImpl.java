@@ -20,70 +20,66 @@ public class UserDetailsImpl implements UserDetails {
 
 	private int id;
 
-	  private String username;
+	private String username;
 
-	  private String email;
+	private String email;
 
-	  @JsonIgnore
-	  private String password;
+	@JsonIgnore
+	private String password;
 
-	  private Collection<? extends GrantedAuthority> authorities;
+	private Collection<? extends GrantedAuthority> authorities;
 
-	  public UserDetailsImpl(int id, String username, String email, String password,
-	      Collection<? extends GrantedAuthority> authorities) {
-	    this.id = id;
-	    this.username = username;
-	    this.email = email;
-	    this.password = password;
-	    this.authorities = authorities;
-	  }
+	public UserDetailsImpl(int id, String username, String email, String password,
+			Collection<? extends GrantedAuthority> authorities) {
+		this.id = id;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.authorities = authorities;
+	}
 
-	  public static UserDetailsImpl build(User user) {
-//	    List<GrantedAuthority> authorities = user.getRoles().stream()
+	public static UserDetailsImpl build(User user) {
+//	   List<GrantedAuthority> authorities = user.getRoles().stream()
 //	        .map(role -> new SimpleGrantedAuthority(role.getName().name()))
 //	        .collect(Collectors.toList());
-		  
-		  List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-		  authorities.add(new SimpleGrantedAuthority("ROLE_MODERATOR"));
-		  authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-		  authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-		  
-	    return new UserDetailsImpl(
-	        user.getId(), 
-	        user.getUsername(), 
-	        user.getEmail(),
-	        user.getPassword(), 
-	        authorities);
-	  }
 
-	  @Override
-	  public boolean isAccountNonExpired() {
-	    return true;
-	  }
+		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+		authorities.add(new SimpleGrantedAuthority("ROLE_MODERATOR"));
+		authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
-	  @Override
-	  public boolean isAccountNonLocked() {
-	    return true;
-	  }
+		return new UserDetailsImpl(user.getId(), user.getUsername(),
+				user.getEmail(), user.getPassword(), authorities);
+	}
 
-	  @Override
-	  public boolean isCredentialsNonExpired() {
-	    return true;
-	  }
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
 
-	  @Override
-	  public boolean isEnabled() {
-	    return true;
-	  }
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
 
-	  @Override
-	  public boolean equals(Object o) {
-	    if (this == o)
-	      return true;
-	    if (o == null || getClass() != o.getClass())
-	      return false;
-	    UserDetailsImpl user = (UserDetailsImpl) o;
-	    return Objects.equals(id, user.id);
-	  }
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		UserDetailsImpl user = (UserDetailsImpl) o;
+		return Objects.equals(id, user.id);
+	}
 
 }
