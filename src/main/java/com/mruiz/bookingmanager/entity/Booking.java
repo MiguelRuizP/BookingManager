@@ -1,7 +1,8 @@
 package com.mruiz.bookingmanager.entity;
 
+import java.util.Date;
+
 import jakarta.annotation.Nonnull;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,26 +15,23 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "users")
+@Table(name = "bookings")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class User {
+public class Booking {
+	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
 	@Nonnull
-	@Column(length = 25)
-	private String username;
+	private int userId;
 	
 	@Nonnull
-	@Column(length = 25)
-	private String email;
+	private Date date;
 	
 	@Nonnull
-	@Column(length = 60)
-	private String password;
-	
+	private boolean notified;
 }
