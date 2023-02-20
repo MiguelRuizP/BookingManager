@@ -1,4 +1,4 @@
-package com.mruiz.bookingmanager.service;
+package com.mruiz.bookingmanager.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
