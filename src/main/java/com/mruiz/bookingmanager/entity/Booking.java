@@ -34,4 +34,7 @@ public class Booking {
 	
 	@Nonnull
 	private boolean notified;
+	
+	@Nonnull
+	private boolean active;
 }
