@@ -44,7 +44,13 @@ public class TokenService {
 	}
 	
 	public User getUserFromAuthorities(Authentication auth) {
-		String token = ((Jwt)auth.getCredentials()).getTokenValue();
-		return userRepository.findByUsername(getUsernameFromToken(token)).get();
+		try {
+			String token = ((Jwt)auth.getCredentials()).getTokenValue();
+			return userRepository.findByUsername(getUsernameFromToken(token)).get();
+		} catch (NullPointerException ex) {
+			// Si en vez de usar el bearer token se inicia con user/password
+			// se podra hacer aun asi
+			return userRepository.findByUsername(auth.getName()).get();
+		}
 	}
 }

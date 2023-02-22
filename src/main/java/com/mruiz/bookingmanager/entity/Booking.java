@@ -9,18 +9,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "bookings")
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class Booking {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +26,7 @@ public class Booking {
 	private int userId;
 	
 	@Nonnull
+//	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss", timezone = "Europe/Madrid")
 	private Date date;
 	
 	@Nonnull
