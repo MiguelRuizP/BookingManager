@@ -14,6 +14,9 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
 
+import com.mruiz.bookingmanager.entity.User;
+import com.mruiz.bookingmanager.repository.UserRepository;
+
 @Service
 public class TokenService {
 	
@@ -22,6 +25,9 @@ public class TokenService {
 	
 	@Autowired
 	private JwtDecoder decoder;
+	
+	@Autowired
+	private UserRepository userRepository;
 
 	public String generateToken(Authentication authentication) {
 		Instant now = Instant.now();
@@ -33,12 +39,12 @@ public class TokenService {
 		return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 	}
 	
-	public String getUserFromToken(String token) {
+	public String getUsernameFromToken(String token) {
 		return decoder.decode(token).getSubject();
 	}
 	
-	public String getUserFromAuthorities(Authentication auth) {
+	public User getUserFromAuthorities(Authentication auth) {
 		String token = ((Jwt)auth.getCredentials()).getTokenValue();
-		return getUserFromToken(token);
+		return userRepository.findByUsername(getUsernameFromToken(token)).get();
 	}
 }

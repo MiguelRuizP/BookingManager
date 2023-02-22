@@ -20,12 +20,12 @@ public class EmailTemplateService {
 	private UserRepository userRepository;
 	
 	public void alertBooking(Booking booking) {
-		User user = userRepository.findById(booking.getId()).get();
+		User user = userRepository.findById(booking.getUserId()).get();
 		String username = user.getUsername();
 		String subject = "Recordatorio de tu reserva";
 		
 		String day = new SimpleDateFormat("dd-MM-yyyy").format(booking.getDate());
-		String time = new SimpleDateFormat("HH:mm:ss.SSS").format(booking.getDate());
+		String time = new SimpleDateFormat("HH:mm:ss").format(booking.getDate());
 		String msgBody = "Hola " + username + ", le recordamos su reserva para las "
 				+ time + " del " + day;
 		
