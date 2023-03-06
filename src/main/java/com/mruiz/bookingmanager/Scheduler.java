@@ -13,6 +13,8 @@ import com.mruiz.bookingmanager.entity.Booking;
 import com.mruiz.bookingmanager.repository.BookingRepository;
 import com.mruiz.bookingmanager.service.impl.EmailTemplateService;
 
+import jakarta.mail.SendFailedException;
+
 @Component
 public class Scheduler {
 
@@ -26,7 +28,7 @@ public class Scheduler {
 
 	@Transactional
 	@Scheduled(cron = "0 */5 * * * *")
-	public void emailAlertJob() {
+	public void emailAlertJob() throws SendFailedException{
 		logger.info("Ejecutando Job de alertas de correo");
 		
 		List<Booking> unnotified = bookingRepository.findUnnotified();
@@ -38,4 +40,16 @@ public class Scheduler {
 		
 		logger.info("Terminado Job de alertas de correo");
 	}
+	
+	@Transactional
+	@Scheduled(cron = "0 */1 * * * *")
+	public void checkPastBookings() {
+		logger.info("Ejecutando Job para marcar inactivas las reservas pasadas");
+		
+		bookingRepository.uncheckPastActive();
+
+		logger.info("Terminado Job para marcar inactivas las reservas pasadas");
+		
+	}
+	
 }
