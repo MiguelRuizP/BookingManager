@@ -11,6 +11,8 @@ import com.mruiz.bookingmanager.payload.EmailDetails;
 import com.mruiz.bookingmanager.repository.UserRepository;
 import com.mruiz.bookingmanager.service.EmailService;
 
+import jakarta.mail.SendFailedException;
+
 @Service
 public class EmailTemplateService {
 	@Autowired
@@ -19,7 +21,7 @@ public class EmailTemplateService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public void alertBooking(Booking booking) {
+	public void alertBooking(Booking booking) throws SendFailedException {
 		User user = userRepository.findById(booking.getUserId()).get();
 		String username = user.getUsername();
 		String subject = "Recordatorio de tu reserva";
@@ -30,7 +32,6 @@ public class EmailTemplateService {
 				+ time + " del " + day;
 		
 		EmailDetails email = new EmailDetails(user.getEmail(), msgBody, subject);
-		
 		emailService.sendSimpleMessage(email);
 	}
 }

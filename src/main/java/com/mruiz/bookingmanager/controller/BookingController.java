@@ -20,7 +20,6 @@ import com.mruiz.bookingmanager.payload.SimpleMessageDto;
 import com.mruiz.bookingmanager.repository.BookingRepository;
 import com.mruiz.bookingmanager.service.TokenService;
 
-import jakarta.mail.SendFailedException;
 import jakarta.transaction.Transactional;
 
 @RestController
@@ -49,11 +48,7 @@ public class BookingController {
 		
 		bookingRepository.save(booking);
 		
-		try {
-			scheduler.emailAlertJob();
-		} catch (SendFailedException ex) {
-			
-		}
+		scheduler.emailAlertJob();
 		
 		return ResponseEntity.ok(new SimpleMessageDto("Reserva creada con éxito!!!"));
 	}

@@ -2,6 +2,7 @@ package com.mruiz.bookingmanager;
 
 import java.util.Properties;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -9,14 +10,21 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 @Configuration
 public class AppConfig {
+	
+	@Value("${mailservice.user}")
+	private String user;
+	
+	@Value("${mailservice.password}")
+	private String pass;
+	
 	@Bean
 	public JavaMailSender getJavaMailSender() {
 	    JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 	    mailSender.setHost("smtp.gmail.com");
 	    mailSender.setPort(587);
 	    
-	    mailSender.setUsername("mruiz.bookingmanager@gmail.com");
-	    mailSender.setPassword("yfabuxfeaeckybcw");
+	    mailSender.setUsername(user);
+	    mailSender.setPassword(pass);
 	    
 	    Properties props = mailSender.getJavaMailProperties();
 	    props.put("mail.transport.protocol", "smtp");

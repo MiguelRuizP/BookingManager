@@ -11,3 +11,14 @@ spring:
 rsa:
   private-key: classpath:certs/private.pem
   public-key: classpath:certs/public.pem
+  
+logging:
+  level:
+    org:
+      springframework:
+        web: INFO
+      hibernate: ERROR
+
+mailservice:
+  user: 
+  password: 

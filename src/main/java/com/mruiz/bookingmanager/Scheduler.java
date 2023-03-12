@@ -28,14 +28,18 @@ public class Scheduler {
 
 	@Transactional
 	@Scheduled(cron = "0 */5 * * * *")
-	public void emailAlertJob() throws SendFailedException{
+	public void emailAlertJob(){
 		logger.info("Ejecutando Job de alertas de correo");
 		
 		List<Booking> unnotified = bookingRepository.findUnnotified();
 		
 		unnotified.forEach(booking -> {
-			emailTemplateService.alertBooking(booking);
-			bookingRepository.checkNotified(booking.getId());
+			try {
+				emailTemplateService.alertBooking(booking);
+				bookingRepository.checkNotified(booking.getId());
+			} catch (SendFailedException ex) {
+				logger.error("Alerta fallida al enviar a usuario " + booking.getUserId());
+			}
 		});
 		
 		logger.info("Terminado Job de alertas de correo");
